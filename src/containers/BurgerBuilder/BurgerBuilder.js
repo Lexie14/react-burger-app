@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import Burger from '../../components/Layout/Burger/Burger';
 import BuildControls from '../../components/Layout/Burger/BuildControls/BuildControls';
+import { thisTypeAnnotation } from '@babel/types';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -53,6 +54,7 @@ class BurgerBuilder extends Component {
                     ingredientRemoved={this.removeIngredientHandler}
                     ingredientAdded={this.addIngredientHandler}
                     disabled={disabledInfo}
+                    price={this.state.totalPrice}
                 />
             </Aux>
         )
