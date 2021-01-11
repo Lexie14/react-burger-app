@@ -10,7 +10,7 @@ class ContactData extends Component {
         orderForm: {
             name: {
                 elementType: 'input',
-                elemenyConfig: {
+                elementConfig: {
                     type: 'text',
                     placeholder: 'Your Name'
                 },
@@ -18,7 +18,7 @@ class ContactData extends Component {
             },
             street: {
                 elementType: 'input',
-                elemenyConfig: {
+                elementConfig: {
                     type: 'text',
                     placeholder: 'Street'
                 },
@@ -26,7 +26,7 @@ class ContactData extends Component {
             },
             zipCode: {
                 elementType: 'input',
-                elemenyConfig: {
+                elementConfig: {
                     type: 'text',
                     placeholder: 'ZIP Code'
                 },
@@ -34,7 +34,7 @@ class ContactData extends Component {
             },
             country: {
                 elementType: 'input',
-                elemenyConfig: {
+                elementConfig: {
                     type: 'text',
                     placeholder: 'Country'
                 },
@@ -42,7 +42,7 @@ class ContactData extends Component {
             },
             email: {
                 elementType: 'input',
-                elemenyConfig: {
+                elementConfig: {
                     type: 'email',
                     placeholder: 'Email'
                 },
@@ -50,7 +50,7 @@ class ContactData extends Component {
             },
             deliveryMethod: {
                 elementType: 'select',
-                elemenyConfig: {
+                elementConfig: {
                     options: [
                         { value: 'fastest', displayValue: 'Fastest' },
                         { value: 'cheapest', displayValue: 'Cheapest' }
@@ -79,13 +79,36 @@ class ContactData extends Component {
             )
     }
 
+    inputChangedHadler = (event, inputIdentifier) => {
+        const updatedOrderForm = {
+            ...this.state.orderForm
+        }
+        const updatedFormElement = {
+            ...updatedOrderForm[inputIdentifier]
+        }
+        updatedFormElement.value = event.target.value;
+        updatedOrderForm[inputIdentifier] = updatedFormElement;
+        this.setState({orderForm: updatedOrderForm});
+    }
+
     render() {
+        let formElementsArray = [];
+        for (let key in this.state.orderForm) {
+            formElementsArray.push({
+                id: key,
+                config: this.state.orderForm[key]
+            });
+        }
         let form = (
             <form>
-                <Input elementType="..." elemenyConfig="..." value="..." />
-                <Input elementType="..." elemenyConfig="..." value="..." />
-                <Input elementType="..." elemenyConfig="..." value="..." />
-                <Input elementType="..." elemenyConfig="..." value="..." />
+                {formElementsArray.map(formElement => (
+                    <Input
+                        key={formElement.id}
+                        elementType={formElement.config.elementType}
+                        elementConfig={formElement.config.elementConfig}
+                        value={formElement.config.value}
+                        changed={(event) => this.inputChangedHadler(event, formElement.id)} />
+                ))}
                 <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
             </form>
         );
@@ -94,7 +117,7 @@ class ContactData extends Component {
         }
         return (
             <div className={classes.ContactData}>
-                <h4>Enter you Contact Data</h4>
+                <h4>Enter your Contact Data</h4>
                 {form}
             </div>
         )
