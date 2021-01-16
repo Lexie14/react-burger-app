@@ -20,7 +20,7 @@ class Checkout extends Component {
                 ingredients[param[0]] = +param[1];
             }
         }
-        this.setState({ ingredients: ingredients, totalPrice: price })
+        this.setState({ ingredients: ingredients, price: price })
     }
 
     checkoutCancelledHandler = () => {
@@ -36,6 +36,7 @@ class Checkout extends Component {
             <div>
                 <CheckoutSummary
                     ingredients={this.state.ingredients}
+                    price={this.state.price}
                     checkoutCancelled={this.checkoutCancelledHandler}
                     checkoutContinued={this.checkoutContinuedHandler} />
                 <Route
